@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'stock/bootstrap/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'stock/custom.css' %}"/>
+    <script src="{% static 'stock/echarts.min.js' %}"></script>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="{% static 'stock/jquery-3.1.1.min.js' %}"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{% static 'stock/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<!-- bootstrap 4.x is supported. You can also use the bootstrap css 3.3.x versions -->
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+	<!-- if using RTL (Right-To-Left) orientation, load the RTL CSS file after fileinput.css by uncommenting below -->
+	<!-- link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/css/fileinput-rtl.min.css" media="all" rel="stylesheet" type="text/css" /-->
+	<!-- optionally uncomment line below if using a theme or icon set like font awesome (note that default icons used are glyphicons and `fa` theme can override it) -->
+	<!-- link https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css media="all" rel="stylesheet" type="text/css" /-->
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+	<!-- piexif.min.js is only needed for restoring exif data in resized images and when you wish to resize images before upload. This must be loaded before fileinput.min.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/plugins/piexif.min.js" type="text/javascript"></script>
+	<!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview. This must be loaded before fileinput.min.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/plugins/sortable.min.js" type="text/javascript"></script>
+	<!-- purify.min.js is only needed if you wish to purify HTML content in your preview for  HTML files. This must be loaded before fileinput.min.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/plugins/purify.min.js" type="text/javascript"></script>
+	<!-- popper.min.js below is needed if you use bootstrap 4.x. You can also use the bootstrap js 3.3.x versions without popper.min.js. -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<!-- bootstrap.min.js below is needed if you wish to zoom and preview file content in a detail modal dialog. bootstrap 4.x is supported. You can also use the bootstrap js 3.3.x versions. -->
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" type="text/javascript"></script> -->
+	<!-- the main fileinput plugin file -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/fileinput.min.js"></script>
+	<!-- optionally uncomment line below for loading your theme assets for a theme like Font Awesome (`fa`) -->
+	<!-- script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/themes/fa/theme.min.js"></script -->
+	<!-- optionally if you need translation for your language then include  locale file as mentioned below -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/locales/LANG.js"></script>
+
+    <title>{% block title %}{% endblock %}</title>
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-custom">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">备件查询系统</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/search/?keyword=_所有备件#hint">备件列表</a></li>
+				<li><a href="/filesys/">数据库管理</a></li>
+                <li><a href="/statistics/">统计信息</a></li>
+                <li><a href="/about/">关于</a></li>
+            </ul>
+
+<!--
+            {% if user.is_authenticated %}
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">用户 {{ ' ' }} {{ user.reader.name }}<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/profile/">个人信息</a></li>
+                            <li><a href="#">正在借阅</a></li>
+                            <li><a href="/set_password/">修改密码</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout/">登出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/login/">登陆</a></li>
+                    <li><a href="/register/">注册</a></li>
+                </ul>
+
+            {% endif %}
+-->
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<header class="jumbotron myJumbotron">
+
+    <div class="container">
+        <h1>备件资料库</h1>
+        <h3>备件检索</h3>
+    </div>
+
+</header>
+
+{% block content %}
+{% endblock %}
+
+{#<footer class="panel-footer navbar-fixed-bottom">#}
+{#    <div class="container">#}
+{#        <p class="text-center"><strong>SWU-CS</strong></p>#}
+{#        <p class="text-center">©All rights reserved</p>#}
+{#        <h5 class="text-center"> Powered by&nbsp;<a href="/about">Django & Bootstrap</a></h5>#}
+{#    </div>#}
+{#</footer>#}
+
+</body>
+</html>

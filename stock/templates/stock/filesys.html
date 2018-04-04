@@ -1,0 +1,42 @@
+{% extends 'stock/base.html' %}
+
+{% block title %} 关于 {% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h1>一个Django和Bootstrap练手作品</h1>
+		<h1>设备数据管理</h1>
+    </div>
+
+	<div class="container myContainer">
+		<form action="/upload" method="POST" enctype="multipart/form-data">{% csrf_token %}
+			<div class="row col-lg-7 col-lg-offset-3">
+				<a href="/media/file/1_template.xls" class="form-control" style="border:none;">下载设备清册导入模板</a>
+				<input type="file" name="input-44" id="input-44" multiple class="file-loading" />
+			</div>
+		</form>
+
+		<form action="/upload2" method="POST" enctype="multipart/form-data">{% csrf_token %}
+			<div class="row col-lg-7 col-lg-offset-3">
+				<a href="/media/file/2_template.xls" class="form-control" style="border:none;">下载库存导入模板</a>
+				<input type="file" name="input-45" id="input-45" multiple class="file-loading" />
+			</div>
+		</form>
+	</div>
+
+<script>
+$(function() {
+    $("#input-44").fileinput({
+        maxFilePreviewSize: 10240,
+		allowedFileExtensions: ["txt", "xls", "csv"],
+    });
+	$("#input-45").fileinput({
+		maxFilePreviewSize: 10240,
+		allowedFileExtensions: ["txt", "xls", "csv"],
+	});
+});
+var csrftoken = Cookies.get('csrftoken');
+</script>
+
+	
+{% endblock %}

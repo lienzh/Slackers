@@ -1,0 +1,97 @@
+{% extends "stock/base.html" %}
+{% load staticfiles %}
+{% block title %}搜索{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+	<form action="/search" method="GET">
+		<div class="row col-md-8 col-md-offset-2">
+
+			{% for radio in searchForm.search_by %}
+				<div class="radio-inline">
+					{{ radio }}
+				</div>
+			{% endfor %}
+
+			<div class="input-group">
+				{{ searchForm.keyword }}
+				<span class="input-group-btn">
+					<button class="btn btn-default btn-lg btn-info" type="submit">备件检索</button>
+				</span>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="container">
+	<h2 id='hint' class="label-success  col-md-8 col-md-offset-2">以下是{{ search_by }}匹配'{{ keyword }}'的结果</h2>
+</div>
+
+<div class="container">
+	<div class="col-md-10 col-md-offset-1">
+	<table class="table table-hover">
+   		<thead>
+			<th>#</th>
+            <th>照片</th>
+            <th>描述</th>
+            <th>价格</th>
+            <th>分类</th>
+            <th>系统</th>
+            <th>使用方向</th>
+			<th>总库存数量</th>
+		</thead>
+		<tbody>
+		{% for devno in device %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>
+					<a href="{{ devno.get_absolute_url }}">
+						<img class="img-thumbnail"
+							src="{{ devno.devthumb.url }}" width="90"
+							height="128"
+							alt="{{ devno.description }}">
+					</a>
+				</td>
+				<td><a href="{{ devno.get_absolute_url }}">{{ devno.description }}</a></td>
+				<td>{{ devno.price }}
+				<td>{{ devno.devclass }}</td>
+				<td>{{ devno.usesys }}</td>
+				<td>{{ devno.usepart }}</td>
+				<td><a href="{{ devno.get_absolute_url }}">{{ devno.quotanum }}</a></td>
+			</tr>
+		{% empty %}
+			<tr>
+				<td>暂无设备</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	</div>
+</div>
+
+
+<div class="container col-md-8 col-md-offset-2">
+        <nav class="myContaineri">
+            <ul class="pager">
+                {% if device.has_previous %}
+                    <li class="previous"><a
+                            href="{{ current_path }}&page={{ device.previous_page_number }}#hint">上一页</a>
+                    </li>
+                {% else %}
+                    <li class="previous disabled"><a href="#">上一页</a></li>
+                {% endif %}
+                第 {{ device.number }} / {{ device.paginator.num_pages }}页
+                {% if device.has_next %}
+                    <li class="next"><a
+                            href="{{ current_path }}&page={{ device.next_page_number }}#hint">下一页</a>
+                    </li>
+                {% else %}
+                    <li class="next disabled"><a href="#">下一页</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+</div>
+
+{% endblock %}
